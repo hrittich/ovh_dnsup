@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'ovh_dnsup'
+OvhDnsup::Cli.run()
