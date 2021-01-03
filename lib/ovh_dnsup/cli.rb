@@ -17,7 +17,10 @@ require 'socket'
 require_relative 'domain_manager'
 
 module OvhDnsup
+  # The command-line interface.
   module Cli
+
+    # Run the command-line interface.
     def self.run
 
       @conf_fn = File.join(Dir.home, '.ovh_dnsup.conf')
@@ -323,7 +326,10 @@ module OvhDnsup
       end
     end
 
-    # version: the IP version
+    # Get the IP address of an interface
+    #
+    # @param interface The interface name.
+    # @param version The IP version, either 4 or 6.
     def self.get_interface_address(interface:, version: nil)
       ipv4 = []
       ipv6 = []
@@ -339,7 +345,7 @@ module OvhDnsup
       end
 
       # filter local addresses
-      ipv6.select { |addr| !/^fe80/ =~ addr }
+      ipv6.select! { |addr| !(/^(fc|fd|fe8|fe9|fea|feb)/ =~ addr) }
 
       if !ipv6.empty? && (version == nil || version == 6)
         return ipv6[0]
@@ -350,6 +356,7 @@ module OvhDnsup
       end
     end
 
+    # Lists all local interfaces and their IP addresses.
     def self.interfaces
       parser = OptionParser.new do |opts|
         opts.banner = 'Usage: ovh_dnsup interfaces'

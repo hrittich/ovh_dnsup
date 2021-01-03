@@ -29,6 +29,8 @@ module OvhDnsup
     'soyoustart-ca' => 'https://ca.api.soyoustart.com/',
   }
 
+  # Access to the OVH rest API. This class manages authentication and
+  # signage of API requests.
   class OvhApi
     attr_reader :endpoint, :application_key, :application_secret, :consumer_key
 
@@ -40,6 +42,13 @@ module OvhDnsup
       ENDPOINTS[endpoint]
     end
 
+    # You have either to provide endpoint, application_key, and
+    # application_secret or provide a state.
+    #
+    # @param endpoint
+    # @param application_key
+    # @param application_secret
+    # @param state
     def initialize(endpoint: nil, application_key: nil, application_secret: nil, state: nil)
       if state
         self.state = state
@@ -55,6 +64,7 @@ module OvhDnsup
       end
     end
 
+    # The state which can be saved and later restored.
     def state
       { 'endpoint' => @endpoint,
         'application_key' => @application_key,

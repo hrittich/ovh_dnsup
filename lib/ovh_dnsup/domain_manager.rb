@@ -16,6 +16,7 @@ require_relative 'ovh_api'
 
 module OvhDnsup
 
+  # Allows managing a DNS zone.
   class DomainManager
     def initialize(args)
       @api = OvhApi.new(args)
@@ -145,6 +146,7 @@ module OvhDnsup
     end
   end
 
+  # Once authorized, can be used to change a DNS zone entry.
   class DomainUpdater
     def initialize(endpoint: nil, application_key: nil, application_secret: nil, state: nil)
       if state
